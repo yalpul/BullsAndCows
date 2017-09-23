@@ -1,6 +1,8 @@
+import java.util.*;
+
 public class BullsAndCows{
 	
-	private int[] remaining;
+	private List remaining;
 
 	public BullsAndCows(int length)
 	{
@@ -10,16 +12,45 @@ public class BullsAndCows{
 
 		int max = min * 10 - 1;
 
-		remaining = new int[max-min+1];
+		remaining = new ArrayList(max-min+1);
 
-		for (int i = min, idx=0; i <= max; i++)
-			remaining[idx++] = i;
+		for (int i = min; i <= max; i++)
+			remaining.add(i);
+	}
+
+	public Feedback compare(int num1, int num2)
+	{
+		String first  = Integer.toString(num1);
+		String second = Integer.toString(num2);
+
+		int plus = 0, minus = 0;
+
+		for (int i = 0; i < second.length(); i++)
+			if (second.charAt(i) == first.charAt(i))
+				plus++;
+			else if (first.indexOf(second.charAt(i)) > -1)
+				minus++;
+
+		return new Feedback(plus, minus);
+	}
+				
+	public void eliminate(int num, Feedback response)
+	{
+		List l = new ArrayList();
+
+		for (int i = 0; i < remaining.size(); i++)
+		{
+			Feedback fb = compare((int)remaining.get(i), num);
+			if (fb.equals(response))
+				l.add(remaining.get(i));
+		}
+		remaining = l;
 	}
 
 	public void printRems()
 	{
-		for (int i = 0; i < remaining.length; i++)
-			System.out.println(remaining[i]);
+		for (int i = 0; i < remaining.size(); i++)
+			System.out.println(remaining.get(i));
 	}
 }
 
