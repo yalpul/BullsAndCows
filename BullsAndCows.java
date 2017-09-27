@@ -8,7 +8,7 @@ public class BullsAndCows{
 	public BullsAndCows(int length)
 	{
 		int min = 1;
-		for (int i = 1; i < length + 1; i++)
+		for (int i = 1; i < length ; i++)
 			min *= 10;
 
 		int max = min * 10 - 1;
