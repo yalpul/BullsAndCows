@@ -70,6 +70,27 @@ public class BullsAndCows{
 		}
 		System.out.println("Your number is: " + remaining.get(0));
 	}
+
+	public void play_vs_pc()
+	{
+		Scanner scanner = new Scanner(System.in);
+
+		Random rnd = new Random();
+
+		int rnum = rnd.nextInt(remaining.size());
+		int num = (int)remaining.get(rnum);
+
+		int number = scanner.nextInt();
+		while (number != num)
+		{
+			Feedback fb = compare(number, num);
+
+			System.out.println(fb.getPlus() + " bulls " + fb.getMinus() + " cows");
+			number = scanner.nextInt();
+		}
+		System.out.println("You found: " + num);
+	}
+		
 }
 
 			
