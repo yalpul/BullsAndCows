@@ -1,7 +1,7 @@
-class Bulls{
+class Program{
 	public static void main(String[] args)
 	{
 		BullsAndCows bac = new BullsAndCows(4);
-		bac.play_vs_pc();
+		bac.human_vs_pc();
 	}
 }

@@ -37,17 +37,22 @@ public class BullsAndCows{
 	}
 				
 	@SuppressWarnings("unchecked")
-	public void eliminate(int num, Feedback response)
+	public List eliminate(int num, Feedback response)
 	{
 		List l = new ArrayList();
+		List m = new ArrayList();
 
 		for (int i = 0; i < remaining.size(); i++)
 		{
 			Feedback fb = compare((int)remaining.get(i), num);
 			if (fb.equals(response))
 				l.add(remaining.get(i));
+			else
+				m.add(remaining.get(i));
 		}
 		remaining = l;
+
+		return m;
 	}
 
 	public void printRems()
@@ -90,7 +95,55 @@ public class BullsAndCows{
 		}
 		System.out.println("You found: " + num);
 	}
-		
+
+	private List select(List discarded, int difficulty)
+	{
+		int size = discarded.size();
+		int selectednum = size / 5 * difficulty;
+		Random rnd = new Random();
+		List l = new ArrayList();
+
+		for (int i = 0; i < selectednum; i++)
+			l.add(discarded.get(rnd.nextInt(size)));
+		return l;
+	}
+
+	public void human_vs_pc()
+	{
+		Scanner scn = new Scanner(System.in);
+		Random rnd = new Random();
+
+		int pc_num = (int)remaining.get(rnd.nextInt(remaining.size()));
+		System.out.println("Select difficulty: (1-5) ");
+		int difficulty = 5 - scn.nextInt();
+		int guess = 0;
+
+		while (remaining.size() > 1)
+		{
+			int max = rnd.nextInt(remaining.size());
+			int num = (int)remaining.get(max);
+
+			System.out.print(num + "? -> ");
+
+			int plus = scn.nextInt();
+			int minus = scn.nextInt();
+			guess = scn.nextInt();
+			if (guess == pc_num)
+				break;
+
+			Feedback fb = new Feedback(plus, minus);
+			Feedback pc = compare(guess, pc_num);
+			System.out.println(pc.getPlus() + " Bulls " + pc.getMinus() + " Cows");
+			List discarded = eliminate(num, fb);
+
+			List surplus = select(discarded, difficulty);
+			remaining.addAll(surplus);
+		}
+		if (remaining.size() == 1)
+			System.out.println("Yout number is " + remaining.get(0));
+		else
+			System.out.println("You found my number: " + guess);
+	}
 }
 
 			
