@@ -2,9 +2,8 @@ import java.util.*;
 
 public class BullsAndCows{
 	
-	private List remaining;
+	private List<Integer> remaining;
 
-	@SuppressWarnings("unchecked")
 	public BullsAndCows(int length)
 	{
 		int min = 1;
@@ -13,7 +12,7 @@ public class BullsAndCows{
 
 		int max = min * 10 - 1;
 
-		remaining = new ArrayList(max-min+1);
+		remaining = new ArrayList<Integer>(max-min+1);
 
 		for (int i = min; i <= max; i++)
 			if (Integer.toString(i).length() == Integer.toString(i).chars().distinct().count())
@@ -36,11 +35,10 @@ public class BullsAndCows{
 		return new Feedback(plus, minus);
 	}
 				
-	@SuppressWarnings("unchecked")
-	public List eliminate(int num, Feedback response)
+	public List<Integer> eliminate(int num, Feedback response)
 	{
-		List l = new ArrayList();
-		List m = new ArrayList();
+		List<Integer> l = new ArrayList<Integer>();
+		List<Integer> m = new ArrayList<Integer>();
 
 		for (int i = 0; i < remaining.size(); i++)
 		{
@@ -64,6 +62,8 @@ public class BullsAndCows{
 	public void play()
 	{
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("Play by entering two numbers in each line");
+		System.out.println("<bulls> <cows> respectively");
 
 		while (remaining.size() > 1)
 		{
@@ -79,6 +79,7 @@ public class BullsAndCows{
 	public void play_vs_pc()
 	{
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("Play by entering your guess in each line");
 
 		Random rnd = new Random();
 
@@ -96,12 +97,12 @@ public class BullsAndCows{
 		System.out.println("You found: " + num);
 	}
 
-	private List select(List discarded, int difficulty)
+	private List<Integer> select(List<Integer> discarded, int difficulty)
 	{
 		int size = discarded.size();
 		int selectednum = size / 5 * difficulty;
 		Random rnd = new Random();
-		List l = new ArrayList();
+		List<Integer> l = new ArrayList<Integer>();
 
 		for (int i = 0; i < selectednum; i++)
 			l.add(discarded.get(rnd.nextInt(size)));
@@ -113,6 +114,8 @@ public class BullsAndCows{
 		Scanner scn = new Scanner(System.in);
 		Random rnd = new Random();
 
+		System.out.println("Play by entering three numbers in each line");
+		System.out.println("<bulls> <cows> <your guess> respectively");
 		int pc_num = (int)remaining.get(rnd.nextInt(remaining.size()));
 		System.out.println("Select difficulty: (1-5) ");
 		int difficulty = 5 - scn.nextInt();
@@ -134,9 +137,9 @@ public class BullsAndCows{
 			Feedback fb = new Feedback(plus, minus);
 			Feedback pc = compare(guess, pc_num);
 			System.out.println(pc.getPlus() + " Bulls " + pc.getMinus() + " Cows");
-			List discarded = eliminate(num, fb);
+			List<Integer> discarded = eliminate(num, fb);
 
-			List surplus = select(discarded, difficulty);
+			List<Integer> surplus = select(discarded, difficulty);
 			remaining.addAll(surplus);
 		}
 		if (remaining.size() == 1)
